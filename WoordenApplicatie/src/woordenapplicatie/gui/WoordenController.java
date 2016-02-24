@@ -11,8 +11,12 @@ package woordenapplicatie.gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,7 +29,7 @@ import javafx.scene.control.TextArea;
  * @author frankcoenen
  */
 public class WoordenController implements Initializable {
-    
+   private List<String> words;
    private static final String DEFAULT_TEXT =   "Een, twee, drie, vier\n" +
                                                 "Hoedje van, hoedje van\n" +
                                                 "Een, twee, drie, vier\n" +
@@ -66,7 +70,20 @@ public class WoordenController implements Initializable {
     
     @FXML
     private void aantalAction(ActionEvent event) {
-         throw new UnsupportedOperationException("Not supported yet."); 
+        String temp = DEFAULT_TEXT;
+        temp = temp.replaceAll("(\r\n|\n)", " ");
+        temp = temp.replaceAll(",", " ");
+        temp = temp.replaceAll("  ", " ");
+
+        words = Arrays.asList(temp.split(" "));        
+        System.out.println(words.size());
+        
+        Set<String> UniqueWords = new HashSet();
+        for (String word : words) {
+        UniqueWords.add(word);        
+        }
+        System.out.println(UniqueWords.size());
+
     }
 
     @FXML
@@ -81,7 +98,33 @@ public class WoordenController implements Initializable {
 
     @FXML
     private void frequentieAction(ActionEvent event) {
-         throw new UnsupportedOperationException("Not supported yet."); 
+    TreeMap <String, Integer> myMap  = new TreeMap <String, Integer> ();
+    
+     String temp = DEFAULT_TEXT;
+        temp = temp.replaceAll("(\r\n|\n)", " ");
+        temp = temp.replaceAll(",", " ");
+        temp = temp.replaceAll("  ", " ");
+
+        String[] input = temp.split(" ");     
+        
+    for(int f = 0; f < input.length; f++) {         
+        String key = input[f].toUpperCase();
+        if(input[f].length() > 1) {
+            if(myMap.get(key) == null) {
+                myMap.put(key, 1);
+                }   
+            else {
+                    int value = myMap.get(key).intValue();
+                    value++;
+                    myMap.put(key, value);
+            }
+        }       
+    }       
+    
+    for(Map.Entry<String, Integer> entry : myMap.entrySet()) {
+        System.out.println(entry.getKey() + " : "+ entry.getValue());
+    }
+
     }
 
     @FXML
