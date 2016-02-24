@@ -109,6 +109,7 @@ public class WoordenController implements Initializable {
         temp2 = temp2.replaceAll(",", "\n");
         temp2 = temp2.replace("[", "");
         temp2 = temp2.replace("]", "");
+        temp2 = temp2.replaceAll(" ", "");
         
         taInput.setText(temp2);
     }
