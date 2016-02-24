@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -111,7 +113,7 @@ public class WoordenController implements Initializable {
         temp2 = temp2.replace("]", "");
         temp2 = temp2.replaceAll(" ", "");
         
-        taInput.setText(temp2);
+        taOutput.setText(temp2);
     }
 
     @FXML
@@ -146,7 +148,52 @@ public class WoordenController implements Initializable {
 
     @FXML
     private void concordatieAction(ActionEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Map<String, Set<Integer>> concordance = new HashMap<String, Set<Integer>>();
+        int zinnummer = 0;
+        String temp = DEFAULT_TEXT;
+        temp = temp.replaceAll("(\r\n|\n)", "-");
+        temp = temp.replaceAll(",", " ");
+        temp = temp.replaceAll("  ", " ");
+        
+        words = Arrays.asList(temp.split("-"));    
+        
+
+            
+        
+        System.err.println("");
+        
+        for (String zin : words) {
+        if(zin.length() < 1)
+        {
+            
+        }
+        else           
+        {      
+        zinnummer++;
+        String[] Woordzin  = zin.split(" ");    
+        for (String woord : Woordzin) {
+        if(concordance.get(woord) == null) {
+        Set<Integer> set= concordance.get(woord);
+        if(set == null)
+        {
+            set = new TreeSet<Integer>();
+        }
+        else
+        {
+            
+        }
+        set.add(zinnummer);
+        concordance.put(woord, set);
+        }   
+            else {
+                    Set<Integer> set= concordance.get(woord);
+                    set.add(zinnummer);
+                    concordance.put(woord, set);
+            }
+        }
+        taOutput.setText(concordance.toString().replaceAll(", (?!\\d)", "\n"));
+        }
+        }
     }
 
 }
