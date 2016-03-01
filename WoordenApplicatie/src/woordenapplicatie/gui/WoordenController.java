@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -96,22 +97,14 @@ public class WoordenController implements Initializable {
         temp = temp.replaceAll("   ", " ");
 
         words = Arrays.asList(temp.split(" "));
-
-        Collections.sort(words, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
-        Collections.reverse(words);
         
-        String temp2 = words.toString();
-        temp2 = temp2.replaceAll(",", "\n");
-        temp2 = temp2.replace("[", "");
-        temp2 = temp2.replace("]", "");
-        temp2 = temp2.replaceAll(" ", "");
-        
-        taInput.setText(temp2);
+        Set<String> UniqueWords = new TreeSet(Collections.reverseOrder());
+        for (String word : words) {
+            UniqueWords.add(word.toLowerCase());
+        }
+        for (String word : UniqueWords) {
+            taOutput.appendText("\n" + word);
+        }
     }
 
     @FXML
